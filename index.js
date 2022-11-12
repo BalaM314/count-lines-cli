@@ -2,19 +2,18 @@
 
 
 import fs from "fs";
-import { Application } from "cli-app";
+import { Script } from "cli-app";
 import glob from "glob";
 import chalk from "chalk";
 
 
-const countlines = new Application("count-lines", "A small script to count lines of files in a directory.");
-countlines.command("count", "Counts lines.", async (opts, app) => {
-	console.log("");
-	const lines = await countLines(opts.positionalArgs[0] ?? "*.*", {
+const countlines = new Script("count-lines", "A small script to count lines of files in a directory.", async (opts, app) => {
+	process.stdout.write("\n");
+	const lines = await countLines(opts.positionalArgs[0], {
 		ignoreEmptyLines: "ignoreEmptyLines" in opts.namedArgs
 	});
 	console.log(chalk.blueBright(`\t${lines} lines.`));
-}, true, {
+}, {
 	namedArgs: {
 		ignoreEmptyLines: {
 			default: "false",
@@ -25,7 +24,8 @@ countlines.command("count", "Counts lines.", async (opts, app) => {
 	},
 	positionalArgs: [{
 		name: "pattern",
-		description: "Only file names that match this glob pattern are counted"
+		description: "Only file names that match this glob pattern are counted",
+		default: "*.*"
 	}]
 });
 
@@ -54,8 +54,4 @@ function countLinesInText(text, options){
 	}
 }
 
-function main(argv){
-	countlines.run(argv);
-}
-
-main(process.argv);
+countlines.run(process.argv);
