@@ -16,10 +16,9 @@ const countlines = new Script("count-lines", "A small script to count lines of f
 }, {
 	namedArgs: {
 		ignoreEmptyLines: {
-			default: "false",
 			description: "Whether to ignore empty lines when counting.",
 			needsValue: false,
-			aliases: []
+			aliases: ["ie"]
 		}
 	},
 	positionalArgs: [{

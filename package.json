@@ -1,5 +1,5 @@
 {
-  "name": "count-lines-cli",
+  "name": "@balam314/count-lines-cli",
   "version": "1.0.0",
   "description": "A simple script to count lines of files in a directory",
   "main": "index.js",
