@@ -21,7 +21,7 @@ countlines.onlyCommand().args({
 }).impl(async (opts, app) => {
 	process.stdout.write("\n");
 	const lines = await countLines(opts.positionalArgs[0], {
-		ignoreEmptyLines: "ignoreEmptyLines" in opts.namedArgs
+		ignoreEmptyLines: opts.namedArgs.ignoreEmptyLines
 	});
 	console.log(chalk.blueBright(`\t${lines} lines.`));
 });
