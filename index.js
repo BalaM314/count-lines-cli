@@ -1,31 +1,29 @@
 #!/usr/bin/env node
-
+//@ts-check
 
 import fs from "fs";
-import { Script } from "cli-app";
+import { Application, arg } from "@balam314/cli-app";
 import glob from "glob";
 import chalk from "chalk";
 
 
-const countlines = new Script("count-lines", "A small script to count lines of files in a directory.", async (opts, app) => {
-	process.stdout.write("\n");
-	const lines = await countLines(opts.positionalArgs[0], {
-		ignoreEmptyLines: "ignoreEmptyLines" in opts.namedArgs
-	});
-	console.log(chalk.blueBright(`\t${lines} lines.`));
-}, {
+const countlines = new Application("count-lines", "A small script to count lines of files in a directory.");
+countlines.onlyCommand().args({
 	namedArgs: {
-		ignoreEmptyLines: {
-			description: "Whether to ignore empty lines when counting.",
-			needsValue: false,
-			aliases: ["ie"]
-		}
+		ignoreEmptyLines: arg().description("Whether to ignore empty lines when counting.")
+			.valueless().aliases("e")
 	},
 	positionalArgs: [{
 		name: "pattern",
 		description: "Only file names that match this glob pattern are counted",
 		default: "*.*"
 	}]
+}).impl(async (opts, app) => {
+	process.stdout.write("\n");
+	const lines = await countLines(opts.positionalArgs[0], {
+		ignoreEmptyLines: "ignoreEmptyLines" in opts.namedArgs
+	});
+	console.log(chalk.blueBright(`\t${lines} lines.`));
 });
 
 function countLines(pattern, options){
